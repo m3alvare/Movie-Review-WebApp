@@ -8,30 +8,28 @@ const App = () => {
       difficulty: '2',
       ingredients: ['apple', 'banana', 'blueberries', 'raisins', 'walnuts'],
       calories: "200",
-      instructions: "Wash fresh fruit. Slice fruit into pieces. Mix all ingredients in a bowl."
+      instructions: "Wash fresh fruit. Slice fruit into pieces. Mix all ingredients in a bowl.",
+      recipeID: 1,
     }, {
       title: 'Avocado wrap',
       difficulty: '3',
       ingredients: ['avocado', 'spinach', 'pine nuts', 'mayo', 'apple', 'tortilla bread'],
       calories: "400",
-      instructions: "Wash all fruits and vegetables. Slice avocadoes and apples. Mix all ingredients and wrap them in a tortilla bread."
+      instructions: "Wash all fruits and vegetables. Slice avocados and apples. Mix all ingredients and wrap them in a tortilla bread.",
+      recipeID: 2
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [selectedRecipe, setSelectedRecipe] = React.useState('');
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const searchedRecipes = recipes.filter(function (recipe) {
-
-    if (!Number.isNaN(parseInt(searchTerm))){
-      return (parseInt(recipe.difficulty)<=parseInt(searchTerm) || searchTerm=='')
+  const handleToggleIngredients = (item) => {
+    if (selectedRecipe) {
+      setSelectedRecipe('');
+    } else {
+      setSelectedRecipe(item.recipeID);
     }
-    return printIngredients(recipe.ingredients).includes(searchTerm);
-    }
-  );
+
+  }
 
 
   return (
@@ -40,37 +38,29 @@ const App = () => {
         Recipe finder
       </h1>
 
-      <Search onSearch={handleSearch} />
 
-      <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
+      <List
+        list={recipes}
+        selectedRecipe={selectedRecipe}
+        onToggleIngredients={handleToggleIngredients}
+      />
 
-      <hr />
-
-      <List list={searchedRecipes} />     
     </div>
   );
 }
 
-const Search = (props) => (
-  <div>
-    <label htmlFor="search">Search: </label>
-    <input
-      id="search"
-      type="text"
-      onChange={props.onSearch}
-    />
 
-  </div>
-);
 
-const List = (props) => {
+const List = ({ list, selectedRecipe, onToggleIngredients }) => {
   return (
     <ul>
-      {props.list.map((item) => {
+      {list.map((item) => {
         return (
-          <Item item={item} />
+          <Item
+            item={item}
+            selectedRecipe={selectedRecipe}
+            onToggleIngredients={onToggleIngredients}
+          />
         );
       })}
     </ul>
@@ -78,24 +68,43 @@ const List = (props) => {
   )
 }
 
-const Item = (props) => {
+const Item = ({ item, selectedRecipe, onToggleIngredients }) => {
+
+
   return (
     <li>
-      <span>Recipe: {props.item.title} | </span>
-      <span>Difficulty: {props.item.difficulty} | </span>
-      <span>{printIngredients(props.item.ingredients)} | </span>
-      <span>Calories: {props.item.calories} | </span>
-      <span>Isnstructions: {props.item.instructions}</span>
+      <p> {"Title: " + item.title}</p>
+      <p> {"Difficulty: " + item.difficulty}</p>
+      {selectedRecipe == item.recipeID && (
+        <>
+          <p>Ingredients: </p>
+          <ul>
+            {item.ingredients.map((ingredient) => (<li>{ingredient}</li>))}
+          </ul>
+
+        </>
+      )}
+
+      <p>
+        <Button
+          item={item}
+          label={selectedRecipe == item.recipeID ? 'Hide ingredients' : 'Show ingredients'}
+          onButtonClick={onToggleIngredients}
+        />
+      </p>
+
+
+      <p>{"Instructions: " + item.instructions}</p>
+      <p>{"Calories: " + item.calories}</p>
     </li>
   )
 }
 
-function printIngredients(arr){
-  var ingredients = arr[0];
-  for (var i = 1; i < arr.length; i++){
-      ingredients += ", " + arr[i] ;
-  }
-  return ingredients;
-}
+const Button = ({ item, label, onButtonClick }) => (
+  <button type="button" onClick={() => onButtonClick(item)}>
+    {label}
+  </button>
+)
+
 
 export default App;
