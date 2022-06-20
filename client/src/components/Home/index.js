@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+// import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -26,6 +27,11 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import { Fragment } from 'react';
+
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
 
 //Dev mode
 const serverURL = ""; //enable for dev mode
@@ -45,10 +51,10 @@ const theme = createTheme({
   palette: {
     type: 'light',
     background: {
-      default: "#000000"
+      default: "#C70039"
     },
     primary: {
-      main: "#f44336",
+      main: "#FF3333",
     },
     secondary: {
       main: "#b552f7",
@@ -82,6 +88,14 @@ const styles = theme => ({
       marginLeft: theme.spacing(4),
     },
   },
+  movieGridContainer: {
+    marginTop: "50vh",
+    marginLeft: theme.spacing(20),
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: theme.spacing(4),
+    },
+  },
+
   paper: {
     overflow: "hidden",
   },
@@ -129,14 +143,13 @@ class Home extends Component {
           Review: "No Review",
           Rating: "No Rating"
         }
-      ]
+      ],
     }
   };
 
   componentDidMount() {
     //this.loadUserSettings();
   }
-
 
   loadUserSettings() {
     this.callApiLoadUserSettings()
@@ -170,124 +183,125 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
 
+    // const mainMessage = (
+    //   <Grid
+    //     container
+    //     spacing={0}
+    //     direction="column"
+    //     justify="flex-start"
+    //     alignItems="flex-start"
+    //     style={{ minHeight: '10vh' }}
+    //     className={classes.mainMessageContainer}
+    //   >
+    //     <Grid item>
 
+    //       <Typography
+    //         variant={"h3"}
+    //         className={classes.mainMessage}
+    //         align="flex-start"
+    //       >
+    //         {this.state.mode === 0 ? (
+    //           <React.Fragment>
+    //             Movie Reviews
+    //           </React.Fragment>
+    //         ) : (
+    //           <React.Fragment>
+    //             Welcome back!
+    //           </React.Fragment>
+    //         )}
+    //       </Typography>
 
-    const mainMessage = (
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        style={{ minHeight: '10vh' }}
-        className={classes.mainMessageContainer}
-      >
-        <Grid item>
-
-          <Typography
-            variant={"h3"}
-            className={classes.mainMessage}
-            align="flex-start"
-          >
-            {this.state.mode === 0 ? (
-              <React.Fragment>
-                Movie Reviews
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                Welcome back!
-              </React.Fragment>
-            )}
-          </Typography>
-
-        </Grid>
+    //     </Grid>
 
         
 
-      </Grid>
-    )
+    //   </Grid>
+    // )
 
-    const reviewForm =(
-      <Grid
-        container
-        spacing={5}
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        style={{ minHeight: '100vh' }}
-        className={classes.reviewFormContainer}
-      >
+    // const reviewForm =(
+    //   <Grid
+    //     container
+    //     spacing={5}
+    //     direction="column"
+    //     justify="flex-start"
+    //     alignItems="flex-start"
+    //     style={{ minHeight: '100vh' }}
+    //     className={classes.reviewFormContainer}
+    //   >
 
-      <Grid item>
-        <FormControl >
-          <InputLabel id="demo-simple-select-helper-label"></InputLabel>
-          <Select
-           labelId="demo-simple-select-helper-label"
-           id="demo-simple-select-helper"
+    //   <Grid item>
+    //     <FormControl >
+    //       { <InputLabel id="demo-simple-select-helper-label"></InputLabel> }
+    //       <Select
+    //        labelId="demo-simple-select-helper-label"
+    //        id="demo-simple-select-helper"
            
-           // value={age}
-           // onChange={handleChange}
-          >
-            <MenuItem value="Movies">
-             <em>None</em>
-           </MenuItem>
-           {this.state.Movies.map((Movies, index) =>(
-            <MenuItem value={index}>{Movies.Title}</MenuItem>
-           ))}
+    //       //  value={selectedMovie}
+    //       //  onChange={setSelectedMovie(this.value)}
+    //       >
+    //         <MenuItem value="Movies">
+    //          <em>None</em>
+    //        </MenuItem>
+    //        {this.state.Movies.map((Movies, index) =>(
+    //         <MenuItem value={index}>{Movies.Title}</MenuItem>
+    //        ))}
            
-          </Select>
-          </FormControl>
-        <FormHelperText>Movie List</FormHelperText>
-      </Grid>
+    //       </Select>
+    //       </FormControl>
+    //     <FormHelperText>Movie List</FormHelperText>
+    //   </Grid>
 
-      <Grid item>
-        <form className={classes.root} noValidate autoComplete="off">
-        <TextField id="outlined-basic" label="Enter Title" variant="outlined" />
-        </form>
-      </Grid>
+    //   <Grid item>
+    //     <form className={classes.root} noValidate autoComplete="off">
+    //     <TextField id="outlined-basic" label="Enter Title" variant="outlined" />
+    //     </form>
+    //   </Grid>
 
-      <Grid item>
-        <TextField
-          id="filled-multiline-static"
-          label="Review"
-          multiline
-          rows={4}
-          defaultValue=""
-          variant="filled"
-          maxlength="200"
-        />
-      </Grid>
+    //   <Grid item>
+    //     <TextField
+    //       id="filled-multiline-static"
+    //       label="Review"
+    //       multiline
+    //       rows={4}
+    //       defaultValue=""
+    //       variant="filled"
+    //       maxLength="200"
+    //     />
+    //   </Grid>
 
-      <Grid item>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Movie Rating</FormLabel>
-            <RadioGroup row aria-label="Rating" name="Rating1" /*value={value} onChange={handleChange}*/>
-              <FormControlLabel value="1" control={<Radio />} label="1" labelPlacement="top"/>
-              <FormControlLabel value="2" control={<Radio />} label="2" labelPlacement="top"/>
-              <FormControlLabel value="3" control={<Radio />} label="3" labelPlacement="top"/>
-              <FormControlLabel value="4" control={<Radio />} label="4" labelPlacement="top"/>
-              <FormControlLabel value="5" control={<Radio />} label="5" labelPlacement="top"/>
-            </RadioGroup>
-          </FormControl>
-      </Grid>
+    //   <Grid item>
+    //       <FormControl component="fieldset">
+    //         <FormLabel component="legend">Movie Rating</FormLabel>
+    //         <RadioGroup row aria-label="Rating" name="Rating1" /*value={value} onChange={handleChange}*/>
+    //           <FormControlLabel value="1" control={<Radio />} label="1" labelPlacement="top"/>
+    //           <FormControlLabel value="2" control={<Radio />} label="2" labelPlacement="top"/>
+    //           <FormControlLabel value="3" control={<Radio />} label="3" labelPlacement="top"/>
+    //           <FormControlLabel value="4" control={<Radio />} label="4" labelPlacement="top"/>
+    //           <FormControlLabel value="5" control={<Radio />} label="5" labelPlacement="top"/>
+    //         </RadioGroup>
+    //       </FormControl>
+    //   </Grid>
 
-      <Grid item>
-          <Button variant="contained" color="Primary">
-            Submit Review
-          </Button>
-      </Grid>
+    //   <Grid item>
+    //       <Button 
+    //         variant="contained" 
+    //         color="Primary"
+    //         onClick={() => { alert('submitted') }}>
+    //         Submit Review
+    //       </Button>
+    //   </Grid>
 
-    </Grid>
-    )
+    // </Grid>
+    // )
 
     const movieGrid =(
       <Grid
         container
         spacing={5}
-        direction="column"
+        direction="row"
         justify="flex-start"
         alignItems="flex-start"
-        style={{ minHeight: '100vh' }}
+        style={{ minHeight: '30vh' }}
         className={classes.reviewFormContainer}
       >
         {this.state.Movies.map(Movies =>(
@@ -316,20 +330,328 @@ class Home extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
+        {/* <Review
+          classes = {classes}
+          states = {this.state}
+        /> */}
+        
         <div className={classes.root}>
           <CssBaseline />
           <Paper
             className={classes.paper}
           >
-            {mainMessage}
+            <Review
+              classes={classes}
+              states = {this.state}
+            />
+            {/* {mainMessage}
             {reviewForm}
-            {movieGrid}
+            {movieGrid} */}
           </Paper>
-
+          
         </div>
       </MuiThemeProvider>
     );
   }
+}
+
+const Review = ({classes, states}) =>{
+  const [selectedMovie, setSelectedMovie] = React.useState('');
+  const [enteredTitle, setEnteredTitle] = React.useState('');
+  const [enteredReview, setEnteredReview] = React.useState('');
+  const [selectedRating, setSelectedRating] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
+  const [openMovieError, setOpenMovieError] = React.useState('');
+  const [openTitleError, setOpenTitleError] = React.useState('');
+  const [openReviewError, setOpenReviewError] = React.useState('');
+  const [openRatingError, setOpenRatingError] = React.useState('');
+
+  const [Reviews, setReviews] = React.useState([]);
+  const [FormErrors, setFormErrors] = React.useState([]);
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  const Validation = ({}) =>{
+    var valid = true
+    console.log(selectedMovie + enteredTitle + enteredReview + selectedRating)
+    if (selectedMovie === ''){
+      valid = false
+      setOpenMovieError(true)
+    }
+
+    if (enteredTitle === ''){
+      valid = false
+      setOpenTitleError(true)
+      // FormErrors.push("Please enter your review title")
+    }
+
+    if (enteredReview === ''){
+      valid = false
+      setOpenReviewError(true)
+      // FormErrors.push("Please enter your review")
+    }
+
+    if (selectedRating === ''){
+      valid = false
+      setOpenRatingError(true)
+      // FormErrors.push("Please enter your rating")
+    }
+    
+    console.log(valid)
+
+    if (valid){
+      Reviews.push({Movie:states.Movies[selectedMovie].Title, Title:enteredTitle, Review:enteredReview, Rating:selectedRating})
+      setOpen(true);
+    }else {
+      
+    }
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  }
+
+  const handleCloseMovieError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenMovieError(false);
+  }
+
+  const handleCloseTitleError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenTitleError(false);
+  }
+
+  const handleCloseReviewError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenReviewError(false);
+  }
+
+  const handleCloseRatingError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenRatingError(false);
+  }
+
+  return(
+    <Fragment>
+      <Typography
+            variant={"h3"}
+            className={classes.mainMessage}
+            align="flex-start"
+          >
+            {states.mode === 0 ? (
+              <React.Fragment>
+                Movie Reviews
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                Welcome back!
+              </React.Fragment>
+            )}
+      </Typography>
+
+          <MovieSelection
+            classes = {classes}
+            states = {states}
+            selectedMovie = {selectedMovie}
+            setSelectedMovie = {setSelectedMovie}
+          />
+
+          <ReviewTitle
+            classes = {classes}
+            states = {states}
+            enteredTitle = {enteredTitle}
+            setEnteredTitle = {setEnteredTitle}
+          />
+
+          <ReviewBody
+            classes = {classes}
+            states = {states}
+            enteredReview = {enteredReview}
+            setEnteredReview = {setEnteredReview}
+          />
+
+          <ReviewRating
+            classes = {classes}
+            states = {states}
+            selectedRating = {selectedRating}
+            setSelectedRating = {setSelectedRating}
+          />
+
+          <Button 
+            variant="contained" 
+            color="Primary"
+            onClick={Validation}>
+            Submit Review
+          </Button>
+
+          <Snackbar open={openMovieError} autoHideDuration={6000} onClose={handleCloseMovieError}>
+            <Alert onClose={handleCloseMovieError} severity="error">
+              Please select the movie
+            </Alert>
+          </Snackbar>
+
+          <Snackbar open={openTitleError} autoHideDuration={6000} onClose={handleCloseTitleError}>
+            <Alert onClose={handleCloseTitleError} severity="error">
+              Please enter your review title
+            </Alert>
+          </Snackbar>
+
+          <Snackbar open={openReviewError} autoHideDuration={6000} onClose={handleCloseReviewError}>
+            <Alert onClose={handleCloseReviewError} severity="error">
+              Please enter your review
+            </Alert>
+          </Snackbar>
+
+          <Snackbar open={openRatingError} autoHideDuration={6000} onClose={handleCloseRatingError}>
+            <Alert onClose={handleCloseRatingError} severity="error">
+              Please enter your rating
+            </Alert>
+          </Snackbar>
+
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+              Your review has been received!
+            </Alert>
+          </Snackbar>
+
+          <Typography
+            variant={"h5"}
+            className={classes.mainMessage}
+            align="flex-start"
+          >
+           Movie Reviews
+          </Typography>
+
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+            style={{ minHeight: '30vh' }}
+            className={classes.reviewFormContainer}
+          >
+            {Reviews.map(Reviews =>(
+            <Grid item>
+              <Card>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                   {Reviews.Movie} {" "}
+                  </Typography>
+                  <Typography variant="h5" component="h2">
+                    {Reviews.Title} {" "}
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    {Reviews.Review} {" "}
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                   {Reviews.Rating} {" "}
+                  </Typography>
+                </CardContent>
+                
+              </Card>
+            </Grid>            
+
+           ))}
+          </Grid>
+
+    </Fragment>
+
+  )
+  
+}
+
+const MovieSelection = ({classes, states, selectedMovie, setSelectedMovie}) => {
+  const handleChange = (event) => {
+    setSelectedMovie(event.target.value);
+  };
+  
+  return(
+    <Fragment>
+      <FormControl>
+        { <InputLabel id="demo-simple-select-helper-label"></InputLabel> }
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={selectedMovie}
+            onChange={handleChange}
+            >
+              <MenuItem value="Movies">
+              <em>None</em>
+            </MenuItem>
+            {states.Movies.map((Movies, index) =>(
+              <MenuItem value={index}>{Movies.Title}</MenuItem>
+            ))}
+            
+          </Select>
+      </FormControl>
+      <FormHelperText>Movie List</FormHelperText>
+    </Fragment>
+  )
+}
+
+const ReviewTitle = ({classes, states, enteredTitle, setEnteredTitle}) => {
+  const handleChange = (event) => {
+    setEnteredTitle(event.target.value);
+  };
+  return (
+    <form className={classes.root} noValidate autoComplete="off">
+    <TextField 
+      id="outlined-basic" 
+      label="Enter Title" 
+      variant="outlined" 
+      value={enteredTitle} 
+      onChange={handleChange}
+    />
+    </form>
+  )
+}
+
+const ReviewBody = ({classes, states, enteredReview, setEnteredReview}) => {
+  const handleChange = (event) => {
+    setEnteredReview(event.target.value);
+  };
+  return (<TextField
+    id="filled-multiline-static"
+    label="Review"
+    multiline
+    rows={4}
+    variant="filled"
+    maxLength="200"
+    value={enteredReview} 
+    onChange={handleChange}
+  />)
+}
+
+const ReviewRating = ({classes, states, selectedRating, setSelectedRating}) => {
+  const handleChange = (event) => {
+    setSelectedRating(event.target.value);
+  };
+  return (
+    <FormControl component="fieldset">
+      <FormLabel component="legend">Movie Rating</FormLabel>
+      <RadioGroup row color="Primary" aria-label="Rating" name="Rating1" value={selectedRating} onChange={handleChange}>
+        <FormControlLabel value="1" control={<Radio />} label="1" labelPlacement="top"/>
+        <FormControlLabel value="2" control={<Radio />} label="2" labelPlacement="top"/>
+        <FormControlLabel value="3" control={<Radio />} label="3" labelPlacement="top"/>
+        <FormControlLabel value="4" control={<Radio />} label="4" labelPlacement="top"/>
+        <FormControlLabel value="5" control={<Radio />} label="5" labelPlacement="top"/>
+      </RadioGroup>
+    </FormControl>
+  )
 }
 
 Home.propTypes = {
