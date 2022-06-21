@@ -608,7 +608,7 @@ const ReviewTitle = ({classes, states, enteredTitle, setEnteredTitle}) => {
     setEnteredTitle(event.target.value);
   };
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form className={classes.reviewFormContainer} noValidate autoComplete="off">
     <TextField 
       id="outlined-basic" 
       label="Enter Title" 
