@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react';
-// import React, { useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -113,42 +113,13 @@ class Home extends Component {
     this.state = {
       userID: 1,
       mode: 0,
-      Movies: [{
-          Title: "The Usual Suspects",
-          ReviewTitle: "No Review Title",
-          Review: "No Review",
-          Rating: "No Rating"
-        },
-        {
-          Title: "Ratatouille",
-          ReviewTitle: "No Review Title",
-          Review: "No Review",
-          Rating: "No Rating"
-        },
-        {
-          Title: "Nemo",
-          ReviewTitle: "No Review Title",
-          Review: "No Review",
-          Rating: "No Rating"
-        },
-        {
-          Title: "The Big Short",
-          ReviewTitle: "No Review Title",
-          Review: "No Review",
-          Rating: "No Rating"
-        },
-        {
-          Title: "Whiplash",
-          ReviewTitle: "No Review Title",
-          Review: "No Review",
-          Rating: "No Rating"
-        }
-      ],
+      Movies: [{}],
     }
   };
 
   componentDidMount() {
-    //this.loadUserSettings();
+    // this.loadUserSettings();
+    this.loadMovies();
   }
 
   loadUserSettings() {
@@ -177,6 +148,39 @@ class Home extends Component {
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     console.log("User settings: ", body);
+    return body;
+  }
+
+  loadMovies() {
+    this.callApiLoadMovies()
+      .then(res => {
+        //console.log("loadUserSettings returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("Movies Loaded", parsed)
+        this.setState({ Movies: parsed});
+        console.log("BRUV")
+      });
+    // console.log(this.Movies[0])
+  }
+
+  callApiLoadMovies = async () => {
+
+    const url = serverURL + "/api/getMovies";
+
+    const response = await fetch(url, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        //authorization: `Bearer ${this.state.token}`
+      },
+      // body: JSON.stringify({
+      //   userID: this.state.userID
+      // })
+    });
+    const body = await response.json();
+    
+    if (response.status !== 200) throw Error(body.message);
+
     return body;
   }
 
@@ -370,13 +374,46 @@ const Review = ({classes, states}) =>{
   const [Reviews, setReviews] = React.useState([]);
   const [FormErrors, setFormErrors] = React.useState([]);
 
+  const addReview = () => {
+    console.log("add review")
+    callApiAddReview()
+      .then(res => {
+        //console.log("loadUserSettings returned: ", res)
+        // var parsed = JSON.parse(res.express)
+        console.log("Submission Successful!")
+      });
+  }
+
+  const callApiAddReview = async () => {
+    const url = serverURL + "/api/addReview";
+    console.log(states.Movies[selectedMovie].id)
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //authorization: `Bearer ${this.state.token}`
+      },
+      body: JSON.stringify({
+        movieID: states.Movies[selectedMovie].id,
+        userID: states.userID,
+        reviewTitle: enteredTitle,
+        reviewContent: enteredReview,
+        reviewScore: selectedRating
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log("Review Submited", body);
+    // return body;
+  }
+
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
   const Validation = ({}) =>{
     var valid = true
-    console.log(selectedMovie + enteredTitle + enteredReview + selectedRating)
+    
     if (selectedMovie === ''){
       valid = false
       setOpenMovieError(true)
@@ -399,11 +436,11 @@ const Review = ({classes, states}) =>{
       setOpenRatingError(true)
       // FormErrors.push("Please enter your rating")
     }
-    
-    console.log(valid)
 
     if (valid){
-      Reviews.push({Movie:states.Movies[selectedMovie].Title, Title:enteredTitle, Review:enteredReview, Rating:selectedRating})
+      Reviews.push({name:states.Movies[selectedMovie].name, title:enteredTitle, review:enteredReview, rating:selectedRating})
+      console.log("about to add review to database")
+      addReview();
       setOpen(true);
     }else {
       
@@ -549,13 +586,13 @@ const Review = ({classes, states}) =>{
               <Card>
                 <CardContent>
                   <Typography className={classes.title} color="textSecondary" gutterBottom>
-                   {Reviews.Movie} {" "}
+                   {Reviews.name} {" "}
                   </Typography>
                   <Typography variant="h5" component="h2">
-                    {Reviews.Title} {" "}
+                    {Reviews.title} {" "}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                    {Reviews.Review} {" "}
+                    {Reviews.review} {" "}
                   </Typography>
                   <Typography variant="body2" component="p">
                    {Reviews.Rating} {" "}
@@ -589,12 +626,9 @@ const MovieSelection = ({classes, states, selectedMovie, setSelectedMovie}) => {
             value={selectedMovie}
             onChange={handleChange}
             >
-              <MenuItem value="Movies">
-              <em>None</em>
-            </MenuItem>
-            {states.Movies.map((Movies, index) =>(
-              <MenuItem value={index}>{Movies.Title}</MenuItem>
-            ))}
+              {states.Movies.map((Movies, index) =>(
+                <MenuItem value={index}>{Movies.name}</MenuItem>
+              ))}
             
           </Select>
       </FormControl>
