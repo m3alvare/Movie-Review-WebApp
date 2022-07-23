@@ -32,9 +32,10 @@ import { Fragment } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 
-//Dev mode
-const serverURL = ""; //enable for dev mode
+const serverURL = "" //Dev mode
+// const serverURL = "http://ec2-18-188-101-79.us-east-2.compute.amazonaws.com:3066"; //enable for dev mode
 
 //Deployment mode instructions
 //const serverURL = "http://ov-research-4.uwaterloo.ca:PORT"; //enable for deployed mode; Change PORT to the port number given to you;
@@ -84,8 +85,8 @@ const styles = theme => ({
   reviewFormContainer: {
     marginTop: "1vh",
     marginLeft: theme.spacing(20),
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: theme.spacing(4),
+    [theme.breakpoints.down('xl')]: {
+      marginLeft: theme.spacing(0),
     },
   },
   movieGridContainer: {
@@ -187,157 +188,8 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
 
-    // const mainMessage = (
-    //   <Grid
-    //     container
-    //     spacing={0}
-    //     direction="column"
-    //     justify="flex-start"
-    //     alignItems="flex-start"
-    //     style={{ minHeight: '10vh' }}
-    //     className={classes.mainMessageContainer}
-    //   >
-    //     <Grid item>
-
-    //       <Typography
-    //         variant={"h3"}
-    //         className={classes.mainMessage}
-    //         align="flex-start"
-    //       >
-    //         {this.state.mode === 0 ? (
-    //           <React.Fragment>
-    //             Movie Reviews
-    //           </React.Fragment>
-    //         ) : (
-    //           <React.Fragment>
-    //             Welcome back!
-    //           </React.Fragment>
-    //         )}
-    //       </Typography>
-
-    //     </Grid>
-
-        
-
-    //   </Grid>
-    // )
-
-    // const reviewForm =(
-    //   <Grid
-    //     container
-    //     spacing={5}
-    //     direction="column"
-    //     justify="flex-start"
-    //     alignItems="flex-start"
-    //     style={{ minHeight: '100vh' }}
-    //     className={classes.reviewFormContainer}
-    //   >
-
-    //   <Grid item>
-    //     <FormControl >
-    //       { <InputLabel id="demo-simple-select-helper-label"></InputLabel> }
-    //       <Select
-    //        labelId="demo-simple-select-helper-label"
-    //        id="demo-simple-select-helper"
-           
-    //       //  value={selectedMovie}
-    //       //  onChange={setSelectedMovie(this.value)}
-    //       >
-    //         <MenuItem value="Movies">
-    //          <em>None</em>
-    //        </MenuItem>
-    //        {this.state.Movies.map((Movies, index) =>(
-    //         <MenuItem value={index}>{Movies.Title}</MenuItem>
-    //        ))}
-           
-    //       </Select>
-    //       </FormControl>
-    //     <FormHelperText>Movie List</FormHelperText>
-    //   </Grid>
-
-    //   <Grid item>
-    //     <form className={classes.root} noValidate autoComplete="off">
-    //     <TextField id="outlined-basic" label="Enter Title" variant="outlined" />
-    //     </form>
-    //   </Grid>
-
-    //   <Grid item>
-    //     <TextField
-    //       id="filled-multiline-static"
-    //       label="Review"
-    //       multiline
-    //       rows={4}
-    //       defaultValue=""
-    //       variant="filled"
-    //       maxLength="200"
-    //     />
-    //   </Grid>
-
-    //   <Grid item>
-    //       <FormControl component="fieldset">
-    //         <FormLabel component="legend">Movie Rating</FormLabel>
-    //         <RadioGroup row aria-label="Rating" name="Rating1" /*value={value} onChange={handleChange}*/>
-    //           <FormControlLabel value="1" control={<Radio />} label="1" labelPlacement="top"/>
-    //           <FormControlLabel value="2" control={<Radio />} label="2" labelPlacement="top"/>
-    //           <FormControlLabel value="3" control={<Radio />} label="3" labelPlacement="top"/>
-    //           <FormControlLabel value="4" control={<Radio />} label="4" labelPlacement="top"/>
-    //           <FormControlLabel value="5" control={<Radio />} label="5" labelPlacement="top"/>
-    //         </RadioGroup>
-    //       </FormControl>
-    //   </Grid>
-
-    //   <Grid item>
-    //       <Button 
-    //         variant="contained" 
-    //         color="Primary"
-    //         onClick={() => { alert('submitted') }}>
-    //         Submit Review
-    //       </Button>
-    //   </Grid>
-
-    // </Grid>
-    // )
-
-    const movieGrid =(
-      <Grid
-        container
-        spacing={5}
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-        style={{ minHeight: '30vh' }}
-        className={classes.reviewFormContainer}
-      >
-        {this.state.Movies.map(Movies =>(
-            <Grid item>
-              <Card>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
-                   {Movies.Title} {" "}
-                  </Typography>
-                  <Typography variant="h5" component="h2">
-                    {Movies.ReviewTitle} {" "}
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    {Movies.Review} {" "}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                   {Movies.Rating} {" "}
-                  </Typography>
-                </CardContent>
-                
-              </Card>
-            </Grid>
-           ))}
-      </Grid>
-    )
-
     return (
       <MuiThemeProvider theme={theme}>
-        {/* <Review
-          classes = {classes}
-          states = {this.state}
-        /> */}
         
         <div className={classes.root}>
           <CssBaseline />
@@ -348,9 +200,7 @@ class Home extends Component {
               classes={classes}
               states = {this.state}
             />
-            {/* {mainMessage}
-            {reviewForm}
-            {movieGrid} */}
+            
           </Paper>
           
         </div>
@@ -487,7 +337,7 @@ const Review = ({classes, states}) =>{
       <Typography
             variant={"h3"}
             className={classes.mainMessage}
-            align="flex-start"
+            align="center"
           >
             {states.mode === 0 ? (
               <React.Fragment>
@@ -568,7 +418,7 @@ const Review = ({classes, states}) =>{
           <Typography
             variant={"h5"}
             className={classes.mainMessage}
-            align="flex-start"
+            align="center"
           >
            Movie Reviews
           </Typography>
@@ -578,7 +428,7 @@ const Review = ({classes, states}) =>{
             direction="row"
             justify="flex-start"
             alignItems="flex-start"
-            style={{ minHeight: '30vh' }}
+            style={{ minHeight: '50vh' }}
             className={classes.reviewFormContainer}
           >
             {Reviews.map(Reviews =>(
@@ -617,8 +467,12 @@ const MovieSelection = ({classes, states, selectedMovie, setSelectedMovie}) => {
   };
   
   return(
-    <Fragment>
-      <FormControl>
+    <Container 
+      align="center"
+    >
+      <FormControl 
+        className={classes.reviewFormContainer}
+      >
         { <InputLabel id="demo-simple-select-helper-label"></InputLabel> }
           <Select
             labelId="demo-simple-select-helper-label"
@@ -631,9 +485,9 @@ const MovieSelection = ({classes, states, selectedMovie, setSelectedMovie}) => {
               ))}
             
           </Select>
+          <FormHelperText>Movie List</FormHelperText>
       </FormControl>
-      <FormHelperText>Movie List</FormHelperText>
-    </Fragment>
+    </Container>
   )
 }
 
@@ -642,15 +496,19 @@ const ReviewTitle = ({classes, states, enteredTitle, setEnteredTitle}) => {
     setEnteredTitle(event.target.value);
   };
   return (
-    <form className={classes.reviewFormContainer} noValidate autoComplete="off">
-    <TextField 
-      id="outlined-basic" 
-      label="Enter Title" 
-      variant="outlined" 
-      value={enteredTitle} 
-      onChange={handleChange}
-    />
-    </form>
+    <container
+      align="center"
+    >
+      <form className={classes.reviewFormContainer} noValidate autoComplete="off">
+        <TextField 
+          id="outlined-basic" 
+          label="Enter Title" 
+          variant="outlined" 
+          value={enteredTitle} 
+          onChange={handleChange}
+        />
+      </form>
+    </container>
   )
 }
 
@@ -658,16 +516,22 @@ const ReviewBody = ({classes, states, enteredReview, setEnteredReview}) => {
   const handleChange = (event) => {
     setEnteredReview(event.target.value);
   };
-  return (<TextField
-    id="filled-multiline-static"
-    label="Review"
-    multiline
-    rows={4}
-    variant="filled"
-    maxLength="200"
-    value={enteredReview} 
-    onChange={handleChange}
-  />)
+  return (
+    <container
+      align = 'center'
+    >
+      <TextField 
+      id="filled-multiline-static"
+      label="Review"
+      multiline
+      rows={4}
+      variant="filled"
+      maxLength="200"
+      value={enteredReview} 
+      onChange={handleChange}
+    />
+    </container>
+  )
 }
 
 const ReviewRating = ({classes, states, selectedRating, setSelectedRating}) => {
