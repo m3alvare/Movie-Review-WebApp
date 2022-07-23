@@ -1,4 +1,7 @@
 export const LANDING = '/';
+export const REVIEW = '/review';
+export const SEARCH = '/search';
+export const QUIZ = '/quiz';
 export const SIGN_UP = '/signup';
 export const SIGN_IN = '/signin';
 export const HOME = '/home';
