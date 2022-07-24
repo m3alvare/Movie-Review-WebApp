@@ -8,7 +8,7 @@ import theme from '../../Theme';
 import { Paper } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import MovieProjectorModel from '../../3DRender';
+import MovieProjectorModel from '../3DModel';
 
 const styles = theme => ({ 
 
@@ -67,7 +67,7 @@ class Landing extends Component {
                             classes = {classes}
                             />
 
-                            <MovieProjectorModel/>
+                            {/* <MovieProjectorModel/> */}
 
                         </Paper> 
                     </div>
