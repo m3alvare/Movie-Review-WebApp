@@ -8,14 +8,23 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({ 
 
-    mainMessageContainer: {
+    pageContainer: {
         marginTop: "0vh",
         marginLeft: theme.spacing(0),
         [theme.breakpoints.down('xs')]: {
           marginLeft: theme.spacing(4),
         },
-        minHeight: '100vh'
-      }
+        minHeight: '91vh'
+      },
+
+    pageTitle: {
+        marginTop: "0vh",
+        marginLeft: theme.spacing(0),
+        [theme.breakpoints.down('xs')]: {
+          marginLeft: theme.spacing(4),
+        },
+        padding: "2.5vh"
+    },
 
 })
 
@@ -31,6 +40,18 @@ class Search extends Component {
         return (
             <MuiThemeProvider theme ={theme}>
                 <NavigationBar/>
+                <Paper
+                    className={classes.pageContainer}
+                    square
+                >
+                    <Typography 
+                        variant="h3"
+                        align="center"
+                        className= {classes.pageTitle}
+                    >
+                        Movie Quiz
+                    </Typography>
+                </Paper>
             </MuiThemeProvider>
         )
     }

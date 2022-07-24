@@ -96,9 +96,18 @@ const styles = theme => ({
     paddingBottom: theme.spacing(2),
   },
 
+  pageTitle: {
+    marginTop: "0vh",
+    marginLeft: theme.spacing(0),
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: theme.spacing(4),
+    },
+    padding: "2.5vh"
+},
+
 });
 
-class Home extends Component {
+class Reviews extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -185,6 +194,7 @@ class Home extends Component {
           <CssBaseline />
           <Paper
             className={classes.paper}
+            square
           >
             <Review
               classes={classes}
@@ -326,7 +336,7 @@ const Review = ({classes, states}) =>{
     <Fragment>
       <Typography
             variant={"h3"}
-            className={classes.mainMessage}
+            className={classes.pageTitle}
             align="center"
           >
             {states.mode === 0 ? (
@@ -554,8 +564,8 @@ const ReviewRating = ({classes, states, selectedRating, setSelectedRating}) => {
   )
 }
 
-Home.propTypes = {
+Reviews.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Reviews);

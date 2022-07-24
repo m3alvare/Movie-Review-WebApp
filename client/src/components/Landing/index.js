@@ -8,6 +8,7 @@ import theme from '../../Theme';
 import { Paper } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import MovieProjectorModel from '../../3DRender';
 
 const styles = theme => ({ 
 
@@ -18,7 +19,24 @@ const styles = theme => ({
           marginLeft: theme.spacing(4),
         },
         minHeight: '91vh'
-      }
+      },
+
+    pageTitle: {
+        marginTop: "0vh",
+        marginLeft: theme.spacing(0),
+        [theme.breakpoints.down('xs')]: {
+          marginLeft: theme.spacing(4),
+        },
+        padding: "2.5vh"
+    },
+    
+    mainMessageContainer: {
+        marginTop: "2vh",
+        marginLeft: theme.spacing(0),
+        [theme.breakpoints.down('xs')]: {
+          marginLeft: theme.spacing(4),
+        }
+    }
 
 })
 
@@ -36,18 +54,38 @@ class Landing extends Component {
                         
                         <Paper
                             className={classes.pageContainer}
+                            square
                         >
-                            <Typography variant="h3"
-                            align="center"
+                            <Typography 
+                                className={classes.pageTitle}
+                                variant="h3"
+                                align="center"
                             >
                                 Mateo's Movie Website
                             </Typography>
+                            <Description
+                            classes = {classes}
+                            />
+
+                            <MovieProjectorModel/>
+
                         </Paper> 
                     </div>
                 
             </MuiThemeProvider>
         )
         }
+}
+
+const Description = ({classes}) =>{
+    return(
+        <Typography
+            align="center"
+            className={classes.mainMessageContainer}
+        >
+            This website provides information on a large range of movies,
+        </Typography>
+    )
 }
 
 export default withStyles(styles)(Landing);

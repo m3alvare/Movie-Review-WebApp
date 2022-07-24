@@ -11,6 +11,7 @@ import Review from '../Review';
 import Landing from '../Landing';
 import PrivateRoute from '../Navigation/PrivateRoute.js';
 import Search from '../Search';
+import Quiz from '../Quiz';
 
 
 
@@ -44,6 +45,9 @@ class App extends Component {
 	    </div>
       <div>
         <Route exact path="/search" component={Search}/>
+	    </div>
+      <div>
+        <Route exact path="/quiz" component={Quiz}/>
 	    </div>
 	  </Router>
     );

@@ -18,11 +18,11 @@ export default function ButtonAppBar() {
             color='primary'
             >
                 <Toolbar>
-                    <Link to = {ROUTES.REVIEW} style={{textDecoration: 'none'}}>
-                        <Button>Review</Button>
-                    </Link>
                     <Link to = {ROUTES.LANDING} style={{textDecoration: 'none'}}>
                         <Button>Landing</Button>
+                    </Link>
+                    <Link to = {ROUTES.REVIEW} style={{textDecoration: 'none'}}>
+                        <Button>Review</Button>
                     </Link>
                     <Link to = {ROUTES.SEARCH} style={{textDecoration: 'none'}}>
                         <Button>Search</Button>
