@@ -12,7 +12,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 // const serverURL = "" //Dev mode
-const serverURL = "http://ec2-18-188-101-79.us-east-2.compute.amazonaws.com:3066"; //enable for dev mode
+const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3066"; //enable for dev mode
 
 const styles = theme => ({ 
 
