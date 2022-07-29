@@ -9,6 +9,7 @@ import { Paper } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import MovieProjectorModel from '../3DModel';
+import FormControl from '@material-ui/core/FormControl';
 
 const styles = theme => ({ 
 
@@ -30,12 +31,23 @@ const styles = theme => ({
         padding: "2.5vh"
     },
     
-    mainMessageContainer: {
-        marginTop: "2vh",
-        marginLeft: theme.spacing(0),
-        [theme.breakpoints.down('xs')]: {
-          marginLeft: theme.spacing(4),
-        }
+    pageDescriptionsContainer: {
+        marginTop: "6vh",
+        // marginLeft: theme.spacing(20),
+        marginBottom: 15,
+        [theme.breakpoints.down('xl')]: {
+          marginLeft: theme.spacing(2),
+        },
+        width: "30vh"
+    },
+
+    pageDescriptions: {
+        marginTop: "6vh",
+        // marginLeft: theme.spacing(20),
+        marginBottom: 15,
+        [theme.breakpoints.down('xl')]: {
+          marginLeft: theme.spacing(2),
+        },
     }
 
 })
@@ -79,12 +91,65 @@ class Landing extends Component {
 
 const Description = ({classes}) =>{
     return(
-        <Typography
+        <div>
+            <Typography
             align="center"
-            className={classes.mainMessageContainer}
-        >
-            This website provides information on a large range of movies,
-        </Typography>
+            >
+                This website is connected to a movie database, below are the descriptions of the each page on this site
+            </Typography>
+            <Container
+                align="center"
+            >
+                <FormControl
+                    className={classes.pageDescriptionsContainer}
+                >
+                    <Typography
+                        variant="h4"
+                        align="center"
+                        className={classes.pageDescriptions}
+                    >
+                        Review
+                    </Typography>
+                    <Typography
+                        align="center"
+                    >
+                        Write movie reviews and ratings 
+                    </Typography>
+                </FormControl>
+                <FormControl
+                    className={classes.pageDescriptionsContainer}
+                >
+                    <Typography
+                        variant="h4"
+                        align="center"
+                        className={classes.pageDescriptions}
+                    >
+                        Search
+                    </Typography>
+                    <Typography
+                        align="center"
+                    >
+                        Find movie info and reviews by using movie names, directors, and actors
+                    </Typography>
+                </FormControl>
+                <FormControl
+                    className={classes.pageDescriptionsContainer}
+                >
+                    <Typography
+                        variant="h4"
+                        align="center"
+                        className={classes.pageDescriptions}
+                    >
+                        Quiz
+                    </Typography>
+                    <Typography
+                        align="center"
+                    >
+                        Play a movie quiz and try to guess the correct Director
+                    </Typography>
+                </FormControl>
+            </Container>
+        </div>
     )
 }
 

@@ -23,7 +23,6 @@ import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
 import Button from '@material-ui/core/Button';
@@ -134,7 +133,7 @@ class Reviews extends Component {
 
   callApiLoadUserSettings = async () => {
     const url = serverURL + "/api/loadUserSettings";
-
+    
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -156,9 +155,8 @@ class Reviews extends Component {
       .then(res => {
         //console.log("loadUserSettings returned: ", res)
         var parsed = JSON.parse(res.express);
-        console.log("Movies Loaded", parsed)
         this.setState({ Movies: parsed});
-        console.log("BRUV")
+        console.log("Movies Loaded", parsed)
       });
     // console.log(this.Movies[0])
   }
