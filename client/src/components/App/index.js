@@ -5,8 +5,13 @@ import {
   Link,
 } from 'react-router-dom';
 
+
 import Home from '../Home';
+import Review from '../Review';
+import Landing from '../Landing';
 import PrivateRoute from '../Navigation/PrivateRoute.js';
+import Search from '../Search';
+import Quiz from '../Quiz';
 
 
 
@@ -33,7 +38,16 @@ class App extends Component {
     return (
 	  <Router>
 	    <div>
-        <PrivateRoute exact path="/" component={Home}/>
+        <Route exact path="/" component={Landing}/>
+	    </div>
+      <div>
+        <Route exact path="/review" component={Review}/>
+	    </div>
+      <div>
+        <Route exact path="/search" component={Search}/>
+	    </div>
+      <div>
+        <Route exact path="/quiz" component={Quiz}/>
 	    </div>
 	  </Router>
     );
